@@ -1,20 +1,23 @@
 ---
 id: 1742000000004
-title: "超英派遣队"
-slug: "superhero-dispatch"
+title: "超英派遣中心"
+slug: "dispatch"
 date: 2026-04-05
 type: "game-diary"
 
 game:
-  name: "Superhero Dispatch Team"
-  cnName: "超英派遣队"
-  releaseDate: "2025-01-01"
+  name: "Dispatch"
+  cnName: "超英派遣中心"
+  steamAppId: 2592160
+  releaseDate: "2025-10-01"
   developers:
-    - "待确认"
+    - "AdHoc Studio"
   genres:
-    - "动作冒险"
+    - "叙事冒险"
+    - "喜剧"
   platforms:
     - "PC"
+    - "Xbox Series X|S"
 
 myRecord:
   status: "已通关"
@@ -28,14 +31,14 @@ myRecord:
 tags:
   - "游戏日记"
   - "2026游玩记录"
-  - "动作"
+  - "叙事"
 ---
 
-# 超英派遣队
+# 超英派遣中心
 
 ## 游戏介绍
 
-[待补充]
+《超英派遣中心》（Dispatch）是一款超级英雄职场喜剧游戏，由 AdHoc Studio 开发。玩家管理一支由不合群的英雄组成的团队，策略性派遣他们处理城市突发事件，同时应对办公室政治和人际关系。叙事驱动，玩家选择影响剧情走向。Steam 压倒性好评，发售一个月销量破 200 万。
 
 ## 个人评价
 
