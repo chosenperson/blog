@@ -21,6 +21,9 @@ game:
     - "PC"
     - "Xbox Series X|S"
 
+assets:
+  cover: "/images/games/forza-horizon-6/cover.jpg"
+
 myRecord:
   status: "弃坑"
   platform: "PC"

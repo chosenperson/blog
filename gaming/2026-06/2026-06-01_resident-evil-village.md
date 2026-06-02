@@ -19,6 +19,9 @@ game:
     - "PC"
     - "PS5"
 
+assets:
+  cover: "/images/games/resident-evil-village/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "PS5"

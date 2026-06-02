@@ -23,6 +23,9 @@ game:
     - "PC"
     - "Switch"
 
+assets:
+  cover: "/images/games/blazblue-entropy-effect/cover.jpg"
+
 myRecord:
   status: "弃坑"
   platform: "PC"

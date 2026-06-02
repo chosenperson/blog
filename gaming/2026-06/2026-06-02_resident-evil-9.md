@@ -8,7 +8,7 @@ type: "game-diary"
 game:
   name: "Resident Evil Requiem"
   cnName: "生化危机：安魂曲"
-  steamAppId: 2592160
+  steamAppId: 3764200
   releaseDate: "2026-02-27"
   developers:
     - "Capcom"
@@ -20,6 +20,9 @@ game:
     - "PC"
     - "PS5"
     - "Switch2"
+
+assets:
+  cover: "/images/games/resident-evil-requiem/cover.jpg"
 
 myRecord:
   status: "已通关"

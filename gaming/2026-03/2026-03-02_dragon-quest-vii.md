@@ -18,6 +18,9 @@ game:
     - "3DS"
     - "Switch2"
 
+assets:
+  cover: "/images/games/dragon-quest-vii/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "Switch2"

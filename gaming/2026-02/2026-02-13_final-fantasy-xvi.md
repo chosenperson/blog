@@ -18,6 +18,9 @@ game:
     - "PC"
     - "PS5"
 
+assets:
+  cover: "/images/games/final-fantasy-xvi/cover.jpg"
+
 myRecord:
   status: "在玩"
   platform: "PC"

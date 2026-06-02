@@ -16,6 +16,9 @@ game:
   platforms:
     - "Switch2"
 
+assets:
+  cover: "/images/games/pokemon-legends-z-a/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "Switch2"

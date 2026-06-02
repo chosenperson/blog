@@ -19,6 +19,9 @@ game:
     - "PC"
     - "Xbox Series X|S"
 
+assets:
+  cover: "/images/games/dispatch/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "PC"

@@ -18,6 +18,9 @@ game:
   platforms:
     - "PC"
 
+assets:
+  cover: "/images/games/slay-the-spire-2/cover.jpg"
+
 myRecord:
   status: "在玩"
   platform: "PC"

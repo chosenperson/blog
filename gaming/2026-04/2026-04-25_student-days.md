@@ -18,6 +18,9 @@ game:
   platforms:
     - "PC"
 
+assets:
+  cover: "/images/games/student-days/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "PC"

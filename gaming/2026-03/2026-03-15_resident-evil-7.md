@@ -19,6 +19,9 @@ game:
     - "PC"
     - "PS5"
 
+assets:
+  cover: "/images/games/resident-evil-7/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "PC"

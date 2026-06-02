@@ -19,6 +19,9 @@ game:
     - "PC"
     - "PS5"
 
+assets:
+  cover: "/images/games/hogwarts-legacy/cover.jpg"
+
 myRecord:
   status: "搁置"
   platform: "PC"

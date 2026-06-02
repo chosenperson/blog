@@ -18,6 +18,9 @@ game:
     - "PC"
     - "PS5"
 
+assets:
+  cover: "/images/games/like-a-dragon-infinite-wealth/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "PC"

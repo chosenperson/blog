@@ -17,6 +17,9 @@ game:
   platforms:
     - "PS5"
 
+assets:
+  cover: "/images/games/bloodborne/cover.jpg"
+
 myRecord:
   status: "已通关"
   platform: "PS5"
