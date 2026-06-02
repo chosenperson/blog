@@ -1,0 +1,224 @@
+---
+import Base from "../layouts/Base.astro";
+import GameCard from "../components/GameCard.astro";
+import { getCollection } from "astro:content";
+
+const allDiaries = await getCollection("game-diary");
+const allWiki = await getCollection("wiki");
+
+const catColors: Record<string, string> = {
+  "环境配置": "#60a5fa",
+  "日常问题": "#f97316",
+  "学习": "#a78bfa",
+  "工作": "#34d399",
+  "规划": "#facc15",
+  "其他": "#94a3b8",
+  "日常": "#94a3b8",
+};
+
+interface TimelineItem {
+  type: "game" | "wiki";
+  sortTime: number;
+  entry: any;
+}
+
+const gameItems: TimelineItem[] = allDiaries.map((e) => ({
+  type: "game",
+  sortTime: e.data.updatedAt?.getTime() || e.data.date.getTime(),
+  entry: e,
+}));
+
+const wikiItems: TimelineItem[] = allWiki
+  .filter((e) => (e.data.title || "").length > 0)
+  .map((e) => ({
+    type: "wiki",
+    sortTime: (e.data.id || 0) > 1e12 ? e.data.id : 0,
+    entry: e,
+  }));
+
+const timeline = [...gameItems, ...wikiItems]
+  .filter((item) => item.sortTime > 0)
+  .sort((a, b) => b.sortTime - a.sortTime);
+
+const totalCount = timeline.length;
+const gameCount = allDiaries.length;
+const wikiCount = allWiki.length;
+---
+
+<Base title="Daily" activeNav="home">
+  <section class="hero">
+    <h1>Daily</h1>
+    <p>个人知识库 & 游戏日记。AI 补资料，我写感受。</p>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">{totalCount}</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">{gameCount}</span>
+        <span class="stat-label">Games</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">{wikiCount}</span>
+        <span class="stat-label">Notes</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline">
+    {
+      timeline.map((item) => {
+        if (item.type === "game") {
+          return <GameCard entry={item.entry} />;
+        }
+
+        const e = item.entry;
+        const d = e.data;
+        const color = catColors[d.category || ""] || "#94a3b8";
+        const dateStr = new Date(item.sortTime).toLocaleDateString("zh-CN", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        });
+
+        return (
+          <a href={`${import.meta.env.BASE_URL}/wiki/${e.id}`} class="timeline-link">
+            <div class="timeline-card wiki-card">
+              <div class="tc-type" style={`background: ${color}20; color: ${color};`}>
+                {d.category || "Note"}
+              </div>
+              <div class="tc-body">
+                <div class="tc-title">{d.title}</div>
+                <div class="tc-tags">
+                  {(d.tags || []).slice(0, 4).map((t: string) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+              </div>
+              <div class="tc-meta">
+                <span class="tc-date">{dateStr}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        );
+      })
+    }
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: 32px 0 28px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  .hero p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+  .stats {
+    display: flex;
+    gap: 24px;
+  }
+  .stat-num {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .timeline-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .timeline-link:hover {
+    opacity: 1;
+  }
+
+  .timeline-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.2s;
+  }
+  .timeline-card:hover {
+    background: var(--bg-card-hover);
+    border-color: #3a3a3e;
+  }
+
+  .tc-type {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tc-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tc-title {
+    font-size: 0.92rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tc-tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .tc-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .tc-date {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .stats { gap: 16px; }
+    .hero h1 { font-size: 1.5rem; }
+    .tc-type { display: none; }
+    .tc-meta svg { display: none; }
+  }
+</style>

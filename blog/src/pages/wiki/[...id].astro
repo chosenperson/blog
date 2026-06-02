@@ -1,0 +1,148 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const allWiki = await getCollection("wiki");
+  return allWiki.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const html = (entry as any).rendered?.html || "";
+
+const catColors: Record<string, string> = {
+  "环境配置": "#60a5fa",
+  "日常问题": "#f97316",
+  "学习": "#a78bfa",
+  "工作": "#34d399",
+  "规划": "#facc15",
+  "其他": "#94a3b8",
+};
+const color = catColors[d.category || ""] || "#94a3b8";
+---
+
+<Base title={`${d.title || "Note"} - Daily`}>
+  <article class="wiki-article">
+    <div class="wiki-meta">
+      <span class="wiki-cat" style={`color: ${color}; border-color: ${color}30;`}>
+        {d.category || "Note"}
+      </span>
+      {(d.tags || []).length > 0 && (
+        <div class="tags">
+          {d.tags.map((t: string) => (
+            <span class="tag">{t}</span>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <h1>{d.title || "Untitled"}</h1>
+
+    {d.path && (
+      <div class="file-path">{d.path.replace(/\\\\/g, "\\").replace(/^D:\\daily\\daily\\/, "")}</div>
+    )}
+
+    <div class="content-body" set:html={html} />
+  </article>
+</Base>
+
+<style>
+  .wiki-article {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 0;
+  }
+
+  .wiki-article h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .wiki-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .wiki-cat {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border: 1px solid;
+    border-radius: 4px;
+  }
+
+  .file-path {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    margin-bottom: 24px;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .content-body {
+    margin-top: 8px;
+  }
+
+  .content-body :global(h2) {
+    font-size: 1.3rem;
+    margin: 36px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .content-body :global(h3) {
+    font-size: 1.1rem;
+    margin: 28px 0 12px;
+    color: var(--accent);
+  }
+
+  .content-body :global(p) {
+    margin-bottom: 14px;
+  }
+
+  .content-body :global(ul),
+  .content-body :global(ol) {
+    margin: 10px 0 14px 24px;
+  }
+
+  .content-body :global(li) {
+    margin-bottom: 6px;
+  }
+
+  .content-body :global(pre) {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 16px 0;
+    font-size: 0.85rem;
+  }
+
+  .content-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+  }
+
+  .content-body :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    color: var(--text-dim);
+    margin: 16px 0;
+  }
+</style>

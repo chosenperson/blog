@@ -1,0 +1,18 @@
+---
+export interface Props {
+  status: string;
+}
+
+const { status } = Astro.props;
+
+const statusMap: Record<string, { cls: string; label: string }> = {
+  "在玩": { cls: "playing", label: "Playing" },
+  已通关: { cls: "completed", label: "Completed" },
+  弃坑: { cls: "dropped", label: "Dropped" },
+  搁置: { cls: "shelved", label: "Shelved" },
+  想玩: { cls: "shelved", label: "Wishlist" },
+};
+const info = statusMap[status] || { cls: "shelved", label: status };
+---
+
+<span class={`status-badge ${info.cls}`}>{info.label}</span>

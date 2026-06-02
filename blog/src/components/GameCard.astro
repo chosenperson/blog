@@ -1,0 +1,225 @@
+---
+export interface Props {
+  entry: any;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const score = d.myRecord.score;
+const scoreColor =
+  score >= 9
+    ? "var(--score-great)"
+    : score >= 7
+      ? "var(--score-good)"
+      : score >= 5
+        ? "var(--score-mid)"
+        : "var(--score-bad)";
+
+const statusMap: Record<string, { cls: string; label: string }> = {
+  "在玩": { cls: "playing", label: "Playing" },
+  已通关: { cls: "completed", label: "Completed" },
+  弃坑: { cls: "dropped", label: "Dropped" },
+  搁置: { cls: "shelved", label: "Shelved" },
+  想玩: { cls: "shelved", label: "Wishlist" },
+};
+const status = statusMap[d.myRecord.status] || {
+  cls: "shelved",
+  label: d.myRecord.status,
+};
+
+const dateStr = d.date.toLocaleDateString("zh-CN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+const hasCover = d.assets?.cover;
+---
+
+<a href={`${import.meta.env.BASE_URL}/games/diary/${d.slug}`} class="game-card-link">
+  <div class="game-card">
+    {
+      hasCover ? (
+        <div class="card-cover">
+          <img src={d.assets.cover} alt={d.game.cnName} loading="lazy" />
+        </div>
+      ) : (
+        <div
+          class="card-score"
+          style={`background: ${scoreColor}20; border: 2px solid ${scoreColor};`}
+        >
+          <span style={`color: ${scoreColor}`}>{score}</span>
+        </div>
+      )
+    }
+
+    <div class="card-info">
+      <h2>{d.title}</h2>
+      <div class="game-name">
+        {d.game.cnName || d.game.name}
+        {d.game.developers?.length
+          ? ` · ${d.game.developers.join(", ")}`
+          : ""}
+      </div>
+      <div class="meta-row">
+        <span class={`status-badge ${status.cls}`}>{status.label}</span>
+        <span>{dateStr}</span>
+        {d.myRecord.playtimeHours && (
+          <span>{d.myRecord.playtimeHours}h</span>
+        )}
+      </div>
+      <div class="card-tags">
+        {d.tags.slice(0, 4).map((t: string) => (
+          <span class="tag">{t}</span>
+        ))}
+      </div>
+    </div>
+
+    <div class="card-right">
+      <div
+        class="mini-score"
+        style={`background: ${scoreColor}20; color: ${scoreColor};`}
+      >
+        {score}
+      </div>
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+    </div>
+  </div>
+</a>
+
+<style>
+  .game-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .game-card-link:hover .game-card {
+    background: var(--bg-card-hover);
+    border-color: #3a3a3e;
+  }
+  .game-card-link:hover {
+    opacity: 1;
+  }
+
+  .game-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    transition: all 0.2s;
+  }
+
+  .card-cover {
+    width: 80px;
+    height: 38px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-score {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+
+  .card-info {
+    min-width: 0;
+  }
+  .card-info h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-info h2 a {
+    color: var(--text);
+  }
+  .game-name {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .mini-score {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 640px) {
+    .game-card {
+      grid-template-columns: auto 1fr;
+    }
+    .card-right {
+      display: none;
+    }
+    .card-cover {
+      width: 60px;
+      height: 28px;
+    }
+  }
+</style>

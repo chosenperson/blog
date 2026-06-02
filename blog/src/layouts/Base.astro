@@ -1,0 +1,57 @@
+---
+export interface Props {
+  title: string;
+  activeNav?: string;
+}
+
+const { title, activeNav = "" } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1><a href={baseUrl}>Daily</a></h1>
+        <nav>
+          <a href={baseUrl} class:list={[{ active: activeNav === "home" }]}>Home</a>
+          <a href={`${baseUrl}/games`} class:list={[{ active: activeNav === "games" }]}>Games</a>
+          <a href={`${baseUrl}/wiki`} class:list={[{ active: activeNav === "wiki" }]}>Wiki</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>Personal Knowledge Base &mdash; AI-assisted, human-curated.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>
+
+<style>
+  nav a.active {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,394 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const allWiki = await getCollection("wiki");
+const docs = allWiki
+  .filter((e) => (e.data.title || "").length > 0)
+  .sort((a, b) => (b.data.id || 0) - (a.data.id || 0));
+
+const categories = [...new Set(docs.map((d) => d.data.category || "Other"))].sort();
+const allTags = [...new Set(docs.flatMap((d) => d.data.tags || []))].sort();
+
+const catColors: Record<string, string> = {
+  "环境配置": "#60a5fa",
+  "日常问题": "#f97316",
+  "学习": "#a78bfa",
+  "工作": "#34d399",
+  "规划": "#facc15",
+  "Other": "#94a3b8",
+  "其他": "#94a3b8",
+  "日常": "#94a3b8",
+};
+---
+
+<Base title="Wiki - Daily" activeNav="wiki">
+  <section class="page-header">
+    <h1>Wiki</h1>
+    <p>{docs.length} notes across {categories.length} categories.</p>
+  </section>
+
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-label">Category</span>
+      <div class="filter-chips" id="cat-filters">
+        <button class="chip active" data-cat="">All</button>
+        {
+          categories.map((cat) => (
+            <button
+              class="chip"
+              data-cat={cat}
+              style={`--chip-color: ${catColors[cat] || "#94a3b8"}`}
+            >
+              {cat}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Tags</span>
+      <div class="filter-chips tags-list" id="tag-filters">
+        {
+          allTags.map((tag) => (
+            <button class="chip tag-chip" data-tag={tag}>
+              {tag}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Search titles..." />
+    </div>
+  </div>
+
+  <div class="wiki-list" id="wiki-list">
+    {
+      docs.map((entry) => {
+        const d = entry.data;
+        const color = catColors[d.category || ""] || "#94a3b8";
+        const dateStr = new Date(d.id || 0).toLocaleDateString("zh-CN", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        });
+        return (
+          <a
+            href={`${import.meta.env.BASE_URL}/wiki/${entry.id}`}
+            class="wiki-row-link"
+            data-cat={d.category || ""}
+            data-tags={JSON.stringify(d.tags || [])}
+            data-title={d.title || ""}
+          >
+            <div class="wiki-row">
+              <div
+                class="wiki-cat"
+                style={`color: ${color}; border-color: ${color}30;`}
+              >
+                {d.category || "Note"}
+              </div>
+              <div class="wiki-main">
+                <div class="wiki-title">{d.title}</div>
+                <div class="wiki-tags">
+                  {(d.tags || []).slice(0, 5).map((t: string) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+              </div>
+              <div class="wiki-meta">
+                <span class="wiki-date">{d.id && d.id > 1e12 ? dateStr : ""}</span>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        );
+      })
+    }
+  </div>
+
+  <div class="no-results" id="no-results" style="display:none;">
+    <p>No matching notes found.</p>
+  </div>
+</Base>
+
+<style>
+  .page-header {
+    padding: 32px 0 20px;
+  }
+  .page-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  .filter-bar {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter-group {
+    margin-bottom: 12px;
+  }
+
+  .filter-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .chip:hover {
+    border-color: #4a4a4e;
+    color: var(--text);
+  }
+  .chip.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+  .chip:not(.active)[data-cat] {
+    border-color: var(--chip-color, var(--border));
+    color: var(--chip-color, var(--text-dim));
+  }
+  .chip:not(.active)[data-cat]:hover {
+    background: color-mix(in srgb, var(--chip-color, #94a3b8) 15%, transparent);
+  }
+
+  .tag-chip {
+    font-size: 0.72rem;
+    padding: 3px 10px;
+  }
+  .tag-chip.active {
+    background: #60a5fa;
+    border-color: #60a5fa;
+    color: var(--bg);
+  }
+
+  .search-box {
+    margin-top: 12px;
+  }
+  .search-box input {
+    width: 100%;
+    max-width: 360px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box input:focus {
+    border-color: var(--accent);
+  }
+  .search-box input::placeholder {
+    color: var(--text-dim);
+  }
+
+  .wiki-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .wiki-row-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .wiki-row-link:hover {
+    opacity: 1;
+  }
+
+  .wiki-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.2s;
+  }
+  .wiki-row:hover {
+    background: var(--bg-card-hover);
+    border-color: #3a3a3e;
+  }
+
+  .wiki-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .wiki-cat {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border: 1px solid;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .wiki-title {
+    font-size: 0.92rem;
+    font-weight: 500;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .wiki-tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .wiki-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .wiki-date {
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 48px 0;
+    color: var(--text-dim);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 640px) {
+    .wiki-row {
+      gap: 10px;
+      padding: 10px 14px;
+    }
+    .wiki-cat,
+    .wiki-meta svg {
+      display: none;
+    }
+    .tags-list {
+      max-height: 120px;
+      overflow-y: auto;
+    }
+  }
+</style>
+
+<script>
+  const catFilters = document.getElementById("cat-filters")!;
+  const tagFilters = document.getElementById("tag-filters")!;
+  const searchInput = document.getElementById(
+    "search-input"
+  ) as HTMLInputElement;
+  const wikiList = document.getElementById("wiki-list")!;
+  const noResults = document.getElementById("no-results")!;
+  const items = wikiList.querySelectorAll<HTMLAnchorElement>(".wiki-row-link");
+
+  let activeCat = "";
+  let activeTags = new Set<string>();
+  let searchQuery = "";
+
+  function filter() {
+    let visible = 0;
+    items.forEach((item) => {
+      const cat = item.dataset.cat || "";
+      const tags: string[] = JSON.parse(item.dataset.tags || "[]");
+      const title = (item.dataset.title || "").toLowerCase();
+
+      const catMatch = !activeCat || cat === activeCat;
+      const tagMatch =
+        activeTags.size === 0 || [...activeTags].every((t) => tags.includes(t));
+      const searchMatch =
+        !searchQuery || title.includes(searchQuery);
+
+      if (catMatch && tagMatch && searchMatch) {
+        item.classList.remove("hidden");
+        visible++;
+      } else {
+        item.classList.add("hidden");
+      }
+    });
+    noResults.style.display = visible === 0 ? "" : "none";
+  }
+
+  catFilters.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest("button");
+    if (!btn) return;
+    activeCat = btn.dataset.cat || "";
+    catFilters.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+    btn.classList.add("active");
+    filter();
+  });
+
+  tagFilters.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest("button");
+    if (!btn) return;
+    const tag = btn.dataset.tag || "";
+    if (activeTags.has(tag)) {
+      activeTags.delete(tag);
+      btn.classList.remove("active");
+    } else {
+      activeTags.add(tag);
+      btn.classList.add("active");
+    }
+    filter();
+  });
+
+  searchInput.addEventListener("input", () => {
+    searchQuery = searchInput.value.toLowerCase().trim();
+    filter();
+  });
+</script>

@@ -1,0 +1,12 @@
+---
+export interface Props {
+  score: number;
+}
+
+const { score } = Astro.props;
+
+const cls =
+  score >= 9 ? "high" : score >= 7 ? "mid-high" : score >= 5 ? "mid" : "low";
+---
+
+<span class={`score ${cls}`}>{score}</span>
