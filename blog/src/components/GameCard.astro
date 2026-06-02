@@ -41,7 +41,7 @@ const hasCover = d.assets?.cover;
     {
       hasCover ? (
         <div class="card-cover">
-          <img src={d.assets.cover} alt={d.game.cnName} loading="lazy" />
+          <img src={`${import.meta.env.BASE_URL}${d.assets.cover}`} alt={d.game.cnName} loading="lazy" />
         </div>
       ) : (
         <div
