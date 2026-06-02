@@ -20,6 +20,10 @@ game:
   platforms:
     - "PC"
     - "Xbox Series X|S"
+  hltb:
+    main: 20
+    mainExtra: 40
+    completionist: 80
 
 assets:
   cover: "/images/games/forza-horizon-6/cover.jpg"

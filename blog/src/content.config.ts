@@ -25,6 +25,12 @@ const gameDiary = defineCollection({
       publishers: z.array(z.string()).optional(),
       genres: z.array(z.string()).optional(),
       platforms: z.array(z.string()).optional(),
+      hltb: z.object({
+        main: z.number().optional(),
+        mainExtra: z.number().optional(),
+        completionist: z.number().optional(),
+      }).optional(),
+      mcScore: z.number().optional(),
     }),
     assets: z
       .object({

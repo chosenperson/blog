@@ -16,6 +16,11 @@ game:
     - "魂系"
   platforms:
     - "PS5"
+  hltb:
+    main: 33
+    mainExtra: 45
+    completionist: 73
+  mcScore: 92
 
 assets:
   cover: "/images/games/bloodborne/cover.jpg"

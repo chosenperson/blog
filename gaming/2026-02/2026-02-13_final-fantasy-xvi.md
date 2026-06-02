@@ -17,6 +17,11 @@ game:
   platforms:
     - "PC"
     - "PS5"
+  hltb:
+    main: 35
+    mainExtra: 55
+    completionist: 80
+  mcScore: 87
 
 assets:
   cover: "/images/games/final-fantasy-xvi/cover.jpg"

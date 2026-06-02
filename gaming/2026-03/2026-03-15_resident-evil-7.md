@@ -18,6 +18,11 @@ game:
   platforms:
     - "PC"
     - "PS5"
+  hltb:
+    main: 9
+    mainExtra: 13
+    completionist: 21
+  mcScore: 86
 
 assets:
   cover: "/images/games/resident-evil-7/cover.jpg"

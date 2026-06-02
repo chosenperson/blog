@@ -18,6 +18,11 @@ game:
   platforms:
     - "PC"
     - "PS5"
+  hltb:
+    main: 26
+    mainExtra: 40
+    completionist: 68
+  mcScore: 84
 
 assets:
   cover: "/images/games/hogwarts-legacy/cover.jpg"

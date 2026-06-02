@@ -18,6 +18,11 @@ game:
   platforms:
     - "PC"
     - "PS5"
+  hltb:
+    main: 8
+    mainExtra: 12
+    completionist: 23
+  mcScore: 84
 
 assets:
   cover: "/images/games/resident-evil-village/cover.jpg"

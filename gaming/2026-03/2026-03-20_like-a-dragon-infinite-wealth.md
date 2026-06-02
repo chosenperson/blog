@@ -17,6 +17,11 @@ game:
   platforms:
     - "PC"
     - "PS5"
+  hltb:
+    main: 57
+    mainExtra: 84
+    completionist: 115
+  mcScore: 89
 
 assets:
   cover: "/images/games/like-a-dragon-infinite-wealth/cover.jpg"

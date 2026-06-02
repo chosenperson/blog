@@ -16,6 +16,11 @@ game:
     - "休闲"
   platforms:
     - "PS5"
+  hltb:
+    main: 3
+    mainExtra: 4
+    completionist: 6
+  mcScore: 83
 
 assets:
   cover: "/images/games/astros-playroom/cover.jpg"

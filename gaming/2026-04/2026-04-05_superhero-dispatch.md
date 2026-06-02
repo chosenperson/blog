@@ -18,6 +18,11 @@ game:
   platforms:
     - "PC"
     - "Xbox Series X|S"
+  hltb:
+    main: 8
+    mainExtra: 10
+    completionist: 12
+  mcScore: 80
 
 assets:
   cover: "/images/games/dispatch/cover.jpg"

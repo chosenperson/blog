@@ -17,6 +17,11 @@ game:
   platforms:
     - "3DS"
     - "Switch2"
+  hltb:
+    main: 65
+    mainExtra: 85
+    completionist: 120
+  mcScore: 80
 
 assets:
   cover: "/images/games/dragon-quest-vii/cover.jpg"

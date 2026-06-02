@@ -20,6 +20,10 @@ game:
     - "PC"
     - "PS5"
     - "Switch2"
+  hltb:
+    main: 9
+    mainExtra: 13
+    completionist: 20
 
 assets:
   cover: "/images/games/resident-evil-requiem/cover.jpg"

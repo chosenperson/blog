@@ -17,6 +17,10 @@ game:
     - "养成"
   platforms:
     - "PC"
+  hltb:
+    main: 8
+    mainExtra: 12
+    completionist: 16
 
 assets:
   cover: "/images/games/student-days/cover.jpg"
