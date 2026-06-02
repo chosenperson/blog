@@ -17,12 +17,13 @@ game:
     - "Switch2"
 
 myRecord:
-  status: "在玩"
+  status: "已通关"
   platform: "Switch2"
   playtimeHours: 1
-  score: 4
+  score: 6
   recommend: false
   firstPlayed: "2026-06-01"
+  lastPlayed: "2026-06-02"
 
 tags:
   - "游戏日记"
@@ -38,8 +39,9 @@ tags:
 
 ## 个人评价
 
-才 1 小时，进度 8%。目前印象一般。
+看在宝可梦的面子上给 6 分。AZ。
 
 ## 游玩日志
 
-- 2026-06-01 20:00: 开坑，1h。感觉一般。
+- 2026-06-01 20:00: 开坑。
+- 2026-06-02 21:00: 通关。看在宝可梦面子上，6 分。
