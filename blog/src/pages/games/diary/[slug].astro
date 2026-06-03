@@ -131,6 +131,28 @@ const updatedStr = d.updatedAt
         <h4>Platforms</h4>
         <div class="value small">{d.game.platforms?.join(", ") || "—"}</div>
       </div>
+      {d.game.mcScore && (
+        <div class="info-block">
+          <h4>Metacritic</h4>
+          <div class="value small mc-score">{d.game.mcScore}</div>
+        </div>
+      )}
+      {d.game.hltb && (
+        <div class="info-block hltb-block">
+          <h4>HowLongToBeat</h4>
+          <div class="value small hltb-grid">
+            {d.game.hltb.main && (
+              <span><strong>{d.game.hltb.main}h</strong> Main</span>
+            )}
+            {d.game.hltb.mainExtra && (
+              <span><strong>{d.game.hltb.mainExtra}h</strong> Main+</span>
+            )}
+            {d.game.hltb.completionist && (
+              <span><strong>{d.game.hltb.completionist}h</strong> 100%</span>
+            )}
+          </div>
+        </div>
+      )}
     </div>
 
     <div class="content-body">
@@ -243,6 +265,28 @@ const updatedStr = d.updatedAt
 
   .content-body {
     margin-top: 16px;
+  }
+
+  .mc-score {
+    color: #f5c518;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .hltb-block {
+    grid-column: span 2;
+  }
+  .hltb-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hltb-grid span {
+    color: var(--text-dim);
+  }
+  .hltb-grid strong {
+    color: var(--text);
+    font-weight: 600;
   }
 
   .steam-link {
