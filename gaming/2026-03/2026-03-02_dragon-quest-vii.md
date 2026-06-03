@@ -6,11 +6,13 @@ date: 2026-03-02
 type: "game-diary"
 
 game:
-  name: "Dragon Quest VII: Fragments of the Forgotten Past"
+  name: "DRAGON QUEST VII Reimagined"
   cnName: "勇者斗恶龙7"
-  releaseDate: "2016-09-16"
+  steamAppId: 2499860
+  releaseDate: "2026-02-05"
   developers:
     - "Square Enix"
+    - "HEXADRIVE Inc."
   genres:
     - "RPG"
     - "日式"
@@ -18,10 +20,10 @@ game:
     - "3DS"
     - "Switch2"
   hltb:
-    main: 65
-    mainExtra: 85
-    completionist: 120
-  mcScore: 80
+    main: 41
+    mainExtra: 57
+    completionist: 77
+  mcScore: 83
 
 assets:
   cover: "/images/games/dragon-quest-vii/cover.jpg"

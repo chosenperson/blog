@@ -8,7 +8,7 @@ type: "game-diary"
 game:
   name: "Growing Up"
   cnName: "学生时代"
-  steamAppId: 2059660
+  steamAppId: 1191120
   releaseDate: "2023-07-25"
   developers:
     - "Vile Monarch"
@@ -18,9 +18,9 @@ game:
   platforms:
     - "PC"
   hltb:
-    main: 8
-    mainExtra: 12
-    completionist: 16
+    main: 4
+    mainExtra: 9
+    completionist: 25
 
 assets:
   cover: "/images/games/student-days/cover.jpg"
