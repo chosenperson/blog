@@ -6,21 +6,16 @@ date: 2026-04-25
 type: "game-diary"
 
 game:
-  name: "Growing Up"
+  name: "学生时代"
   cnName: "学生时代"
-  steamAppId: 1191120
-  releaseDate: "2023-07-25"
+  steamAppId: 1991040
   developers:
-    - "Vile Monarch"
+    - "白雨工作室"
   genres:
     - "模拟经营"
     - "养成"
   platforms:
     - "PC"
-  hltb:
-    main: 4
-    mainExtra: 9
-    completionist: 25
 
 assets:
   cover: "/images/games/student-days/cover.jpg"
